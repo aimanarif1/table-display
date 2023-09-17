@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tables</title>
+</head>
+<body>
+    <h1>Table 1</h1>
+    <table id="table1">
+        <tr>
+            <th>Category</th>
+            <th>Value</th>
+        </tr>
+    </table>
+
+    <h1>Table 2</h1>
+    <table id="table2">
+        <tr>
+            <th>Category</th>
+            <th>Value</th>
+        </tr>
+    </table>
+
+    <script>
+        // JavaScript code to read data from CSV and calculate values
+        async function fetchData() {
+            const response = await fetch('data.csv');
+            const data = await response.text();
+            const rows = data.split('\n');
+
+            // Create an object to store data
+            const tableData = {};
+
+            for (const row of rows) {
+                const [category, value] = row.split(',');
+                tableData[category] = value;
+            }
+
+            // Populate Table 1
+            const table1 = document.getElementById('table1');
+            for (const category in tableData) {
+                const row = table1.insertRow();
+                const cell1 = row.insertCell(0);
+                const cell2 = row.insertCell(1);
+                cell1.innerHTML = category;
+                cell2.innerHTML = tableData[category];
+            }
+
+            // Calculate values for Table 2
+            const table2 = document.getElementById('table2');
+            for (const category in tableData) {
+                const row = table2.insertRow();
+                const cell1 = row.insertCell(0);
+                const cell2 = row.insertCell(1);
+
+                cell1.innerHTML = category;
+
+                switch (category) {
+                    case 'Alpha':
+                        cell2.innerHTML = parseInt(tableData['A5']) + parseInt(tableData['A20']);
+                        break;
+                    case 'Beta':
+                        cell2.innerHTML = parseInt(tableData['A15']) / parseInt(tableData['A7']);
+                        break;
+                    case 'Charlie':
+                        cell2.innerHTML = parseInt(tableData['A13']) * parseInt(tableData['A12']);
+                        break;
+                    default:
+                        cell2.innerHTML = 'N/A';
+                }
+            }
+        }
+
+        fetchData();
+    </script>
+</body>
+</html>

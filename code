@@ -23,7 +23,7 @@
     <script>
         // JavaScript code to read data from CSV and calculate values
         async function fetchData() {
-            const response = await fetch('data.csv');
+            const response = await fetch('Table_Input.csv');
             const data = await response.text();
             const rows = data.split('\n');
 
